@@ -1,0 +1,46 @@
+.profile-img
+{
+    max-width: 200px;
+    height: auto;
+}
+.post-field{
+    height: 50%;
+}
+
+.profile-pic-big {
+    max-width: 100%;
+    height: 312px;
+    position:relative;
+    margin: auto auto;
+}
+.profile-pic-big > img{
+    max-width: 100%;
+    max-height: 312px;
+    margin: auto auto;
+    display: block;
+}
+.upload-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-color: rgba(0,0,0,.3);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.form-profile-pic {
+    position: absolute;
+    top: -200%;
+}
+
+.profile-pic-text{
+    position:absolute;
+    top: 80%;
+    left:30%;
+    font-size: 2rem;
+    font-weight: bold;
+    color:white;
+    background-color: black;
+    opacity:0;
+}

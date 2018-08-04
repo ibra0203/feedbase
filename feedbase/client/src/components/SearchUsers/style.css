@@ -1,0 +1,17 @@
+.srch-img
+{
+    float: left;
+    max-width: 100px;
+    height: auto;
+}
+.highlight
+{
+    background:yellow;
+}
+
+.username-srch > p, .username-srch > b{
+    white-space: -moz-pre-wrap; /* Firefox */
+white-space: -o-pre-wrap; /* Opera */
+white-space: pre-wrap; /* Chrome */
+word-wrap: break-word; /* IE */
+}
