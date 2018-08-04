@@ -6,7 +6,10 @@ class Logout extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleResponse = this.handleResponse.bind(this);
-    axios.get('/_logout').then(data =>this.handleResponse(data));
+    var cookie = document.cookie;
+    var match = cookie.match(/\buser_id=([a-zA-Z0-9]{32})/); 
+    var fCookie =match ? match[1] : null;
+    axios.get('/_logout/'+fCookie).then(data =>this.handleResponse(data));
     this.state = {ShouldRedirect: false, RedirectTo: '/'};
   }
   handleResponse(data)

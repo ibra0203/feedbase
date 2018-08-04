@@ -19,6 +19,7 @@ module.exports = function(app, firebase, admin, database,io ){
     var socketNumber = 1;
     let cookieSocket = new Map();
     let cookieAndUid = new Map();
+    let cookieAndUser = new Map();
     io.on('connection', async (client)=>
     {
         console.log("connected sockets: " + socketNumber);
@@ -166,15 +167,24 @@ module.exports = function(app, firebase, admin, database,io ){
             updateUserLastActivityDate(userID);
             if(data.Cookie)
             {
+                cookieAndUser.set(data.Cookie, UserInfo);
+                
             
                 var socket =cookieSocket.get(data.Cookie);
                 if(socket)
                 {
                     cookieAndUid.set(data.Cookie, uid);
+
                     socket.emit('login', UserInfo);
     
                 }
-            }   
+                setTimeout(function(){
+                    cookieAndUser.delete(data.Cookie);
+                    cookieAndUid.delete(data.Cookie);
+
+                },3600000);
+            }
+            firebase.auth().signOut();   
             res.json(resp);
         })
         }).catch(function(err)
@@ -255,9 +265,11 @@ module.exports = function(app, firebase, admin, database,io ){
         
         });
 
-        app.get('/_getuser', (req, res, next) => {
-        var userData = {};
-        var currentUser = firebase.auth().currentUser;
+        app.get('/_getuser/:cookies', (req, res, next) => {
+        var _cookie = req.params.cookies;
+        var currentUser;
+        if(_cookie)
+        currentUser = cookieAndUser(_cookie);
         if(currentUser)
         {
             var uid = currentUser.uid;
@@ -278,25 +290,26 @@ module.exports = function(app, firebase, admin, database,io ){
         
         });
 
-        app.get('/_logout',  (req, res, next) => {
-            if(!firebase.auth().currentUser)
+        app.get('/_logout/:cookie',  (req, res, next) => {
+            let cookie = req.params.cookie;
+            if(cookie)
+            if(!cookieAndUser.get(cookie))
             res.json({Success: true});
+
             
-            var _uid = firebase.auth().currentUser.uid;
-        firebase.auth().signOut().then(function(){
+            
+            var _uid = cookieAndUser.get(cookie).uid;
+        
              
-            let cookie = getKeyFromValue(cookieAndUid, _uid);
             let socket = cookieSocket.get(cookie);
             if(socket)
             {
                socket.emit('logout');
                 cookieAndUid.delete(cookie);
+                cookieAndUser.delete(cookie);
             }
             res.json({Success: true});
-        }).catch(function(err){
-            res.json({Success: false});
-
-        });
+       
 
         });
 

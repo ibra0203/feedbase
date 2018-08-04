@@ -158,8 +158,11 @@ export default class Header extends React.Component {
   }
   componentWillMount()
   {
+    var cookie = document.cookie;
+    var match = cookie.match(/\buser_id=([a-zA-Z0-9]{32})/); 
+    var fCookie =match ? match[1] : null;
    // if(!debugMode)
-    axios.get('/_getuser').then(({data})=>this.HandleUserResponse(data));
+    axios.get('/_getuser/'+fCookie).then(({data})=>this.HandleUserResponse(data));
 
    
 
