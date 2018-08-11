@@ -39,19 +39,19 @@ var publicPath = path.join(process.env.PWD, '/client/build');
   const admin = require('firebase-admin');
 const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://feedbase-1.firebaseio.com/",
-  authDomain: "feedbase-1.firebaseapp.com",
-  storageBucket: "feedbase-1.appspot.com",
-  messagingSenderId: "648197207783"
+  databaseURL: "***",
+  authDomain: "***",
+  storageBucket: "***",
+  messagingSenderId: "***"
 });
 
 
 var config = {
-  apiKey: "AIzaSyCBPf2A8yVY5egl0omP7k7jBlX4vfAuxh0",
-  authDomain: "feedbase-1.firebaseapp.com",
-  databaseURL: "https://feedbase-1.firebaseio.com",
-  storageBucket: "feedbase-1.appspot.com",
-  messagingSenderId: "648197207783"
+  apiKey: "***",
+  authDomain: "***",
+  databaseURL: "***",
+  storageBucket: "***",
+  messagingSenderId: "***"
 
 };
 firebase.initializeApp(config);
