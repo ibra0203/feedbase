@@ -14,7 +14,7 @@ class Timeline extends Component {
       <div>
       <h1>Timeline</h1>
       
-      <PostGroup PostsLocation="LatestPosts" />;
+      <PostGroup PostsLocation="LatestPosts" />
       </div>
     )
   }
