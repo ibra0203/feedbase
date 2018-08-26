@@ -13,64 +13,56 @@ var express = require('express')
   , firebase = require('firebase'),
    cookieParser = require('cookie-parser');
 ;
-  global.XMLHttpRequest = require("xhr2");
-  var Storage = require('@google-cloud/storage');
- // require ('./server/helperFunctions.js');
-  var app = express();
-  var server = http.createServer(app);
+global.XMLHttpRequest = require("xhr2");
+var Storage = require('@google-cloud/storage');
+var app = express();
+var server = http.createServer(app);
 
-  var io = require("socket.io")(server);
+var io = require("socket.io")(server);
 
-
-
-   global.ThisUser =null;
-  global.userId=null;
-
-
-
-  var serviceAccount = require("./data/serviceAccount.json");
+//Removed for security reasons
+var serviceAccount = require("./data/serviceAccount.json");
 
 process.env.PWD = process.cwd();
 
-// Then
+//Configure static directory
 app.use(express.static(process.env.PWD + '/client/build'));
-var publicPath = path.join(process.env.PWD, '/client/build');
 
+//Removed for security reasons
+//Configure firebase and firebase admin
   const admin = require('firebase-admin');
 const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "***",
-  authDomain: "***",
-  storageBucket: "***",
-  messagingSenderId: "***"
+  databaseURL: "*****",
+  authDomain: "*****",
+  storageBucket: "*****",
+  messagingSenderId: "*****"
 });
 
 
 var config = {
-  apiKey: "***",
-  authDomain: "***",
-  databaseURL: "***",
-  storageBucket: "***",
-  messagingSenderId: "***"
+  apiKey:"*****",
+  authDomain: "*****",
+  databaseURL: "*****",
+  storageBucket: "*****",
+  messagingSenderId: "*****",
 
 };
 firebase.initializeApp(config);
 const database = admin.database();
+//Set port if not found
 app.set('port', process.env.PORT || 3000);
+
+//Settings and other middlewares
 app.use(favicon(process.env.PWD  + '/public/images/favicon.png'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded());
 app.use(bodyParser.urlencoded({ limit: '10mb',extended: true, parameterLimit: 1000000}));
 app.use(methodOverride('_method'));
-//app.use(cookieParser());
 
 if (app.get('env') == 'development') {
   app.locals.pretty = true;
 }
-require('./server/users.js')(app, firebase, admin,database, io );
-require('./server/posts.js')(app, firebase, admin,database, io );
-
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -79,57 +71,19 @@ app.use(function(req, res, next) {
   next();
 });
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
+//Load controllers and pass the required objects
+require('./server/controllers/users.js')(app, firebase, admin,database, io );
+require('./server/controllers/posts.js')(app, firebase, admin,database, io );
 
 
 
 
-/*
-app.get('/_admin', (req, res, next) => {
-    dbRef.child('users/').on('value', function(snaps){
-      snaps.forEach(function(snap)
-      {
-        var _uid = snap.key;
-        dbRef.child('users/'+_uid).update({
-          profile_desc: "_"
-        
-        
-        })
-      }); 
-    });
-
-    
-  });*/
- 
-
-
-
-
-/*function checkOnCurrentUser()
-{
-  var _user = firebase.auth().currentUser;
-
-if(_user)
-{
-  
-  userID = _user.uid;
-  ThisUser = getUserInfo(userID);
-  console.log(ThisUser);
-  ThisUser.uid = userID;
-}
-else
-{
-  console.log('incorrect user');
-}
-}*
-
-
-setTimeout(checkOnCurrentUser, 3000);*/
+//Listen to port
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
+//Any get request that doesn't start with an underscore gets redirected to home
 app.get(/\/((?![\/_]).*)/g, (req, res) => {
   
   res.sendFile(path.join(process.env.PWD +'/client/build/index.html'));
