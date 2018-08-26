@@ -1,9 +1,9 @@
-const constants = require('./constants');
+const constants = require('../constants');
 
 module.exports = function(app, firebase, admin, database, io){
     const bucket = admin.storage().bucket();
     const dbRef = database.ref();
-    require('./helperFunctions')(app, firebase, admin,database, io);
+    require('../helperFunctions')(app, firebase, admin,database, io);
    
     //Create New Post
     app.post('/post/create', (req, res,next) => {
@@ -18,9 +18,11 @@ module.exports = function(app, firebase, admin, database, io){
             dbRef.child('posts/LatestPosts/').child(postData.postId).set(postData).then(function(err2){
                 res.json(postData);
             });
-           
+            
         });
-        });
+    });
+
+    //Get the posts of a specific poster
     app.get('/_getposts/:poster', (req, res,next) => {
         const posterId = req.params.poster ;
         let storedRef = database.ref('/posts/'+posterId+'/').orderByChild('date_created');
@@ -28,9 +30,9 @@ module.exports = function(app, firebase, admin, database, io){
             console.log(snaps.val());
             res.json(snaps.val());
         });
-        
     });
 
+    //Deletes a post from a specific user
     app.get('/_deletepost/:userId/:postId', (req, res,next) => {
 
         var postId = req.params.postId;;
@@ -48,5 +50,4 @@ module.exports = function(app, firebase, admin, database, io){
 
 
     });
-    //other routes..
 }
