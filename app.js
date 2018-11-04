@@ -33,47 +33,28 @@ app.use(express.static(process.env.PWD + '/client/build'));
   const admin = require('firebase-admin');
 const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3a81bd9dd57cc1828eeec1b23f7422635953fcac
   databaseURL: "*****",
   authDomain: "*****",
   storageBucket: "*****",
-  messagingSenderId: "*****"
-<<<<<<< HEAD
-=======
+  messagingSenderId: "*****",
   databaseURL: "***",
   authDomain: "***",
   storageBucket: "***",
   messagingSenderId: "***"
->>>>>>> 75f366094efe6739160b659f5cb2c4e52a40b7e6
-=======
->>>>>>> 3a81bd9dd57cc1828eeec1b23f7422635953fcac
 });
 
 
 var config = {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3a81bd9dd57cc1828eeec1b23f7422635953fcac
   apiKey:"*****",
   authDomain: "*****",
   databaseURL: "*****",
   storageBucket: "*****",
   messagingSenderId: "*****",
-<<<<<<< HEAD
-=======
   apiKey: "***",
   authDomain: "***",
   databaseURL: "***",
   storageBucket: "***",
   messagingSenderId: "***"
->>>>>>> 75f366094efe6739160b659f5cb2c4e52a40b7e6
-=======
->>>>>>> 3a81bd9dd57cc1828eeec1b23f7422635953fcac
-
 };
 firebase.initializeApp(config);
 const database = admin.database();
