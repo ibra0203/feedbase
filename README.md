@@ -1,7 +1,5 @@
 # feedbase
 Feedbase is a social network demo using React.js, Firebase, sokcet.io and Node.js
-You can visit a version of the WebApp deployed on heroku from here:
-https://feedbase.herokuapp.com
 
 ## Features
 ### **Profile** 
