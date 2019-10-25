@@ -1,9 +1,9 @@
 # feedbase
-Feedbase is a social network demo using React.js, Firebase, sokcet.io and Node.js
+Feedbase is a social network demo using React.js, Firebase, socket.io, and Node.js
 
 ## Features
 ### **Profile** 
-After registering and signing in, you can visit your profile where you can post whatever you want, delete your previous posts or upload a new profile picture.
+After registering and signing in, you can visit your profile where you can post whatever you want, delete your previous posts, or upload a new profile picture.
 
 ![Alt text](client/public/h1.png?raw=true "Profile")
 
